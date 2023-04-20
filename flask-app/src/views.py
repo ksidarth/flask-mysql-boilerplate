@@ -1,6 +1,5 @@
 from flask import Blueprint
 
-
 # Create a new Flask Blueprint
 # IMPORTANT: Notice in the routes below, we are adding routes to the 
 # blueprint object, not the app object.
