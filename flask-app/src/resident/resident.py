@@ -1,112 +1,99 @@
-from flask import Blueprint, request, jsonify, make_response, Flask
+from flask import Blueprint, request, jsonify, make_response, current_app
 import json
 from src import db
-resident = Flask(__name__)
 
-@resident.route("/", methods=['GET'])
-def hello_world():
-    return "TestMessage"
+resident = Blueprint('resident', __name__)
 
-# Get all the residents from the database
+def execute_command(command):
+    cursor = db.get_db().cursor()
+    cursor.execute(command)
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    the_data = cursor.fetchall()
+    for row in the_data:
+        json_data.append(dict(zip(row_headers, row)))
+    return json_data
+
+
+def json_response(json_data):
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
+
+
+# get all resident
+@resident.route('/', methods=['GET'])
+def get_resident():
+    json_data_resident = execute_command('select * from resident')
+    for resident in json_data_resident:
+        json_data_resident = execute_command('select * from user WHERE username="{0}"'.format(resident['username']))
+        resident.update(json_data_resident[0])
+    return json_response(json_data_resident)
+
+
+# get all resident
 @resident.route('/resident', methods=['GET'])
 def get_resident():
-    # get a cursor object from the database
-    cursor = db.get_db().cursor()
-
-    # use cursor to query the database for a list of products
-    cursor.execute('SELECT id, dateAvailabletoBeginSublet, dateAvailabletoEndSublet, propertyID FROM resident')
-
-    # grab the column headers from the returned data
-    column_headers = [x[0] for x in cursor.description]
-
-    # create an empty dictionary object to use in 
-    # putting column headers together with data
-    json_data = []
-
-    # fetch all the data from the cursor
-    theData = cursor.fetchall()
-
-    # for each of the rows, zip the data elements together with
-    # the column headers. 
-    for row in theData:
-        json_data.append(dict(zip(column_headers, row)))
-
-    return jsonify(json_data)
+    return json_response(execute_command('select * from resident'))
 
 
-# Adds a new resident to the database
+# add a resident
 @resident.route('/resident', methods=['POST'])
 def post_resident():
-    # get a cursor object from the database
+    the_data = request.json
+    current_app.logger.info(the_data)
+
+    username = the_data['username']
+    first_name = the_data['first_name']
+    last_name = the_data['last_name']
+    email = the_data['email']
+    bio = the_data['bio']
+    password = the_data[password]
+    dateAvailabletoBeginSublet = the_data[dateAvailabletoBeginSublet]
+    dateAvailabletoEndSublet = the_data[dateAvailabletoEndSublet]
+    age = the_data[age]
+    requestID = the_data[requestID]
+    propertyID = the_data[propertyID]
+
+    // requestID = execute_command('select * from album WHERE requstID="{0}"'.format(album_title))[0]['album_id']
+
     cursor = db.get_db().cursor()
-
-    # get the request data as a dictionary
-    data = request.get_json()
-
-    username, first_name, last_name, email, bio, password, dateAvailabletoBeginSublet, dateAvailabletoEndSublet, age, requestID, propertyID =\
-    data["username"], data["first_name"], data["last_name"], data["email"], data["bio"], data["password"], data["dateAvailabletoBeginSublet"],
-    data["dateAvailabletoEndSublet"], data["age"], data["requestID"], data["propertyID"]
-
-    # construct the query using the request data
-    query = '''
-            INSERT INTO residents (username, first_name, last_name, email, bio, password, dateAvailabletoBeginSublet,
-            dateAvailabletoEndSublet, age, requestID, propertyID)
-            VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')'''.format(username, first_name, last_name, email, bio, 
-            password, dateAvailabletoBeginSublet, dateAvailabletoEndSublet, age, requestID, propertyID)
-    # execute the query with the request data
-    cursor.execute(query)
-
-    #show change was made
-    query = "SELECT * from Residents WHERE username = '{}'".format(username)
-
-    # commit the changes to the database
+    cursor.execute('insert into review (username, first_name, last_name, email, bio, password, dateAvailabletoBeginSublet, dateAvailabletoEndSublet, age, requestID, propertyID) values ("{0}", "{1}", {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11})'
+                   .format(username, first_name, last_name, email, bio, password, dateAvailabletoBeginSublet, dateAvailabletoEndSublet, age, requestID, propertyID))
     db.get_db().commit()
+    json_data_review = execute_command('select * from review WHERE review_id={0}'.format(cursor.lastrowid))
+    return json_response(json_data_review)
 
-    # return a success messagereturn 
-    jsonify({'message': 'Resident created successfully'})
 
-@resident.route('/resident', methods=['PUT'])
-def put_resident():
-    # get a cursor object from the database
+# get a resident based on username
+@resident.route('/<username>', methods=['GET'])
+def get_resident(username):
+    json_data_reviewer = execute_command('select * from reviewer WHERE username="{0}"'.format(username))[0]
+    json_data_reviewer.update(execute_command('select * from user WHERE username="{0}"'.format(username))[0])
+    return json_response(json_data_reviewer)
+
+
+# update a resident's biography
+@resident.route('/<username>/bio', methods=['PUT'])
+def put_bio(username):
+    the_data = request.json
+    current_app.logger.info(the_data)
+
+    bio = the_data['bio']
+
     cursor = db.get_db().cursor()
-
-    # use cursor to query the database for a list of residents
-    cursor.execute('SELECT username, first_name, last_name, email, bio, password, dateAvailabletoBeginSublet, dateAvailabletoEndSublet, age, requestID, propertyID FROM residents')
-
-    # grab the column headers from the returned data
-    column_headers = [x[0] for x in cursor.description]
-
-    # create an empty dictionary object to use in 
-    # putting column headers together with data
-    json_data = []
-
-    # fetch all the data from the cursor
-    theData = cursor.fetchall()
-
-    # for each of the rows, zip the data elements together with
-    # the column headers. 
-    for row in theData:
-        json_data.append(dict(zip(column_headers, row)))
-
-    return jsonify({'message': 'Resident updated successfully'})
-
-
-@resident.route('/resident', methods=['DELETE'])
-def delete_resident():
-    # get a cursor object from the database
-    cursor = db.get_db().cursor()
-
-    # extract the ID of the resident to delete from the request
-    resident_id = request.args.get('id')
-
-    # use cursor to delete the resident from the database
-    cursor.execute('DELETE FROM residents WHERE id = %s', (resident_id,))
-
-    # commit the changes to the database
+    cursor.execute('update user set biography="{0}" WHERE username="{1}"'.format(bio, username))
     db.get_db().commit()
+    json_data_reviewer = execute_command('select * from reviewer WHERE username="{0}"'.format(username))[0]
+    json_data_reviewer.update(execute_command('select * from user WHERE username="{0}"'.format(username))[0])
+    return json_response(json_data_reviewer)
 
-    return jsonify({'message': 'Resident deletedx successfully'})
+# delete a resident based on resident username
+@resident.route('/resident/<id>', methods=['DELETE'])
+def delete_resident(username):
 
-
-if __name__ == '__main__':
-    resident.run(debug=True, port=4000)
+    cursor = db.get_db().cursor()
+    cursor.execute('delete from resident WHERE resident={0}'.format(username))
+    db.get_db().commit()
+    return json_response({'message': 'resident successfully deleted'})
