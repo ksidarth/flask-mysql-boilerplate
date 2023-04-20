@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, make_response, current_app
+from flask import Blueprint, request, jsonify, make_response
 import json
 from src import db
 
@@ -46,7 +46,7 @@ def get_user(username):
     return the_response
 
 # Adds a new User to the database
-@users.route('/user', methods=['POST'])
+@users.route('/resident', methods=['POST'])
 def post_user():
     # get a cursor object from the database
     cursor = db.get_db().cursor()
@@ -54,29 +54,30 @@ def post_user():
     # get the request data as a dictionary
     data = request.get_json()
 
-    username, first_name, last_name, email, bio, age, password, dateJoined, dateBeginSublet, dateEndSublet, pets, password, zipcode, requestID =\
-    data["username"], data["first_name"], data["last_name"], data["email"], data["bio"], data["age"], data["password"],
-    data["dateJoined"], data["dateBeginSublet"], data["dateEndSublet"], data["pets"], data["password"], data["zipcode"], data["requestID"]
+    username, first_name, last_name, email, bio, password, dateAvailabletoBeginSublet, dateAvailabletoEndSublet, age, requestID, propertyID =\
+    data["username"], data["first_name"], data["last_name"], data["email"], data["bio"], data["password"], data["dateAvailabletoBeginSublet"],
+    data["dateAvailabletoEndSublet"], data["age"], data["requestID"], data["propertyID"]
 
     # construct the query using the request data
     query = '''
-            INSERT INTO user (username, first_name, last_name, email, bio, age, password, dateJoined, dateBeginSublet
-            dateEndSublet, pets, password, zipcode, requestID)
-            VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')'''.format(username, 
-            first_name, last_name, email, bio, age, password, dateJoined, dateBeginSublet, dateEndSublet, pets, password, zipcode, requestID)
+            INSERT INTO residents (username, first_name, last_name, email, bio, password, dateAvailabletoBeginSublet,
+            dateAvailabletoEndSublet, age, requestID, propertyID)
+            VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')'''.format(username, first_name, last_name, email, bio, 
+            password, dateAvailabletoBeginSublet, dateAvailabletoEndSublet, age, requestID, propertyID)
 
 
     # execute the query with the request data
     cursor.execute(query)
 
     # show that change has been made
-    query = 'SELECT * from where username="' + str(username) + '"'
+    query = "SELECT * from "
 
     # commit the changes to the database
     db.get_db().commit()
 
     # return a success messagereturn
     jsonify({'message': 'Resident created successfully'})
+<<<<<<< HEAD:flask-app/src/users/users.py
 
 # add a subletRequest
 @users.route('/subletRequests', methods=['POST'])
@@ -175,3 +176,5 @@ def edit_bio(username):
     db.get_db().commit()
 
     return 'Success!'
+=======
+>>>>>>> parent of 81276be (Merge branch 'main' of https://github.com/ksidarth/flask-mysql-boilerplate):flask-app/src/customers/users.py
