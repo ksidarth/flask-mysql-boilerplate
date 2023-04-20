@@ -88,6 +88,31 @@ CREATE TABLE IF NOT EXISTS `subletapp`.`resident` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+-- -----------------------------------------------------
+-- Table `subletapp`.`subletRequest`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `subletapp`.`property` (
+	id INT,
+	Sqft INT,
+	Pets VARCHAR(50),
+	Rate INT,
+	isOpen VARCHAR(50),
+	Address VARCHAR(50),
+	City VARCHAR(50),
+	State VARCHAR(50),
+	ZipCode VARCHAR(50),
+	landlordUsername INT,
+	description TEXT
+);
+  PRIMARY KEY (`id`))
+  CONSTRAINT `fk_landlordUsername`
+    FOREIGN KEY (`landlordUsername`)
+    REFERENCES `subletapp`.`landlord` (`username`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
 
 -- -----------------------------------------------------
 -- Table `subletapp`.`subletRequest`
