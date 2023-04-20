@@ -322,7 +322,7 @@ INSERT INTO rentRequest(id,isResolved,dateResolved,info,dateSubmitted,landlordID
 
 
 #
-# Dumping data for table 'property'
+# Dumping data for table 'resident'
 #
 
 INSERT INTO resident(username,first_name,last_name,email,bio,password,dateAvailabletoBeginSublet,dateAvailabletoEndSublet,age,requestID,propertyID) VALUES ('rtomasian0','Rogerio','Tomasian','rtomasian0@sfgate.com','et commodo vulputate justo in blandit ultrices enim lorem ipsum dolor','o0ZWrNhMPzd','12/10/2022','09/29/2022',32,574,46);
@@ -534,7 +534,7 @@ INSERT INTO subletRequest(id,isResolved,dateResolved,info,dateSubmitted,renterUs
 
 
 #
-# Dumping data for table 'users'
+# Dumping data for table 'user'
 #
 
 INSERT INTO user(username,first_name,last_name,email,bio,age,date_Joined,date_Begin_Sublet,date_End_Sublet,pets,password,zipcode,requestID) VALUES ('msukbhans0','Maxwell','Sukbhans','msukbhans0@sakura.ne.jp','in lectus pellentesque at nulla suspendisse potenti cras in purus eu',33,'05/01/2022','03/01/2023','03/22/2023','true','SVjonoPI','4110',9);
