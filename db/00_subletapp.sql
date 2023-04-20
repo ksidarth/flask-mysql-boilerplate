@@ -59,7 +59,7 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
--- Table `subletapp`.`Resident`
+-- Table `subletapp`.`resident`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `subletapp`.`resident` (
 	username VARCHAR(50),
@@ -92,7 +92,7 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
--- Table `subletapp`.`subletRequest`
+-- Table `subletapp`.`property`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `subletapp`.`property` (
 	id INT,
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `subletapp`.`property` (
 	city VARCHAR(50),
 	state VARCHAR(50),
 	zipCode VARCHAR(50),
-	landlordUsername INT,
+	landlordID INT,
 	description TEXT
 );
   PRIMARY KEY (`id`))
@@ -122,7 +122,7 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `subletapp`.`subletRequest`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `subletapp`.`rentRequest` (
+CREATE TABLE IF NOT EXISTS `subletapp`.`subletRequest` (
 	id INT,
 	isResolved VARCHAR(50),
 	dateResolved DATE,
