@@ -56,6 +56,8 @@ def post_resident():
     requestID = the_data[requestID]
     propertyID = the_data[propertyID]
 
+    // requestID = execute_command('select * from album WHERE requstID="{0}"'.format(album_title))[0]['album_id']
+
     cursor = db.get_db().cursor()
     cursor.execute('insert into review (username, first_name, last_name, email, bio, password, dateAvailabletoBeginSublet, dateAvailabletoEndSublet, age, requestID, propertyID) values ("{0}", "{1}", {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11})'
                    .format(username, first_name, last_name, email, bio, password, dateAvailabletoBeginSublet, dateAvailabletoEndSublet, age, requestID, propertyID))
@@ -95,43 +97,3 @@ def delete_resident(username):
     cursor.execute('delete from resident WHERE resident={0}'.format(username))
     db.get_db().commit()
     return json_response({'message': 'resident successfully deleted'})
-
-# get a resident's email based on username
-@resident.route('/<username>/email', methods=['GET'])
-def get_email(username):
-    json_data_reviewer = execute_command('select email from resident WHERE username="{0}"'.format(username))[0]
-    return json_response(json_data_reviewer)
-
-
-# update a resident's email
-@resident.route('/<username>/email', methods=['PUT'])
-def put_email(username):
-    the_data = request.json
-    current_app.logger.info(the_data)
-
-    email = the_data['email']
-
-    cursor = db.get_db().cursor()
-    cursor.execute('update user set email="{0}" WHERE username="{1}"'.format(email, username))
-    db.get_db().commit()
-    json_data_reviewer = execute_command('select * from reviewer WHERE username="{0}"'.format(username))[0]
-    json_data_reviewer.update(execute_command('select * from subletRequest WHERE username="{0}"'.format(username))[0])
-    return json_response(json_data_reviewer)
-
-#update a resident's dateAvailabletoBeginSublet
-
-@resident.route('/<username>/dateAvailabletoBeginSublet', methods=['PUT'])
-def put_bio(username):
-    the_data = request.json
-    current_app.logger.info(the_data)
-
-    dateAvailabletoBeginSublet = the_data['dateAvailabletoBeginSublet']
-
-    cursor = db.get_db().cursor()
-    cursor.execute('update user dateAvailabletoBeginSublet="{0}" WHERE username="{1}"'.format(dateAvailabletoBeginSublet, username))
-    db.get_db().commit()
-    json_data_reviewer = execute_command('select * from reviewer WHERE username="{0}"'.format(username))[0]
-    json_data_reviewer.update(execute_command('select * from subletRequest WHERE username="{0}"'.format(username))[0])
-    return json_response(json_data_reviewer)
-
-    
