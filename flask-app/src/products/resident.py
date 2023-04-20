@@ -32,6 +32,7 @@ def get_resident():
     return jsonify(json_data)
 
 
+# Adds a new resident to the database
 @resident.route('/resident', methods=['POST'])
 def post_resident():
     # get a cursor object from the database
@@ -40,17 +41,21 @@ def post_resident():
     # get the request data as a dictionary
     data = request.get_json()
 
+    username, first_name, last_name, email, bio, password, dateAvailabletoBeginSublet, dateAvailabletoEndSublet, age, requestID, propertyID =\
+    data["username"], data["first_name"], data["last_name"], data["email"], data["bio"], data["password"], data["dateAvailabletoBeginSublet"],
+    data["dateAvailabletoEndSublet"], data["age"], data["requestID"], data["propertyID"]
+
     # construct the query using the request data
     query = '''
             INSERT INTO residents (username, first_name, last_name, email, bio, password, dateAvailabletoBeginSublet,
             dateAvailabletoEndSublet, age, requestID, propertyID)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-            '''
+            VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')'''.format(username, first_name, last_name, email, bio, 
+            password, dateAvailabletoBeginSublet, dateAvailabletoEndSublet, age, requestID, propertyID)
     # execute the query with the request data
-    cursor.execute(query, (data['username'], data['first_name'], data['last_name'],
-                          data['email'], data['bio'], data['password'],
-                          data['dateAvailabletoBeginSublet'], data['dateAvailabletoEndSublet'], data['age'],
-                          data['requestID'], data['propertyID']))
+    cursor.execute(query)
+
+    #show change was made
+    query = "SELECT * from Residents WHERE username = '{}'".format(username)
 
     # commit the changes to the database
     db.get_db().commit()
