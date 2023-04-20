@@ -2,72 +2,33 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-DROP SCHEMA IF EXISTS `northwind` ;
-CREATE SCHEMA IF NOT EXISTS `northwind` DEFAULT CHARACTER SET latin1 ;
-USE `northwind` ;
+DROP SCHEMA IF EXISTS `subletapp` ;
+CREATE SCHEMA IF NOT EXISTS `subletapp` DEFAULT CHARACTER SET latin1 ;
+USE `subletapp` ;
 
 -- -----------------------------------------------------
--- Table `northwind`.`customers`
+-- Table `subletapp`.`users`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `northwind`.`customers` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `company` VARCHAR(50) NULL DEFAULT NULL,
-  `last_name` VARCHAR(50) NULL DEFAULT NULL,
-  `first_name` VARCHAR(50) NULL DEFAULT NULL,
-  `email_address` VARCHAR(50) NULL DEFAULT NULL,
-  `job_title` VARCHAR(50) NULL DEFAULT NULL,
-  `business_phone` VARCHAR(25) NULL DEFAULT NULL,
-  `home_phone` VARCHAR(25) NULL DEFAULT NULL,
-  `mobile_phone` VARCHAR(25) NULL DEFAULT NULL,
-  `fax_number` VARCHAR(25) NULL DEFAULT NULL,
-  `address` LONGTEXT NULL DEFAULT NULL,
-  `city` VARCHAR(50) NULL DEFAULT NULL,
-  `state_province` VARCHAR(50) NULL DEFAULT NULL,
-  `zip_postal_code` VARCHAR(15) NULL DEFAULT NULL,
-  `country_region` VARCHAR(50) NULL DEFAULT NULL,
-  `web_page` LONGTEXT NULL DEFAULT NULL,
-  `notes` LONGTEXT NULL DEFAULT NULL,
-  `attachments` LONGBLOB NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `city` (`city` ASC),
-  INDEX `company` (`company` ASC),
+CREATE TABLE IF NOT EXISTS `subletapp`.`users` (
+	username VARCHAR(50),
+	first_name VARCHAR(50),
+	last_name VARCHAR(50),
+	email VARCHAR(50),
+	bio TEXT,
+	age INT,
+	dateJoined DATE,
+	dateBegin Sublet DATE,
+	date End Sublet DATE,
+	pets VARCHAR(50),
+	password VARCHAR(50),
+	zipcode VARCHAR(50),
+	requestID VARCHAR(50)
+);
+  PRIMARY KEY (`username`),
   INDEX `first_name` (`first_name` ASC),
   INDEX `last_name` (`last_name` ASC),
-  INDEX `zip_postal_code` (`zip_postal_code` ASC),
-  INDEX `state_province` (`state_province` ASC))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `northwind`.`employees`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `northwind`.`employees` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `company` VARCHAR(50) NULL DEFAULT NULL,
-  `last_name` VARCHAR(50) NULL DEFAULT NULL,
-  `first_name` VARCHAR(50) NULL DEFAULT NULL,
-  `email_address` VARCHAR(50) NULL DEFAULT NULL,
-  `job_title` VARCHAR(50) NULL DEFAULT NULL,
-  `business_phone` VARCHAR(25) NULL DEFAULT NULL,
-  `home_phone` VARCHAR(25) NULL DEFAULT NULL,
-  `mobile_phone` VARCHAR(25) NULL DEFAULT NULL,
-  `fax_number` VARCHAR(25) NULL DEFAULT NULL,
-  `address` LONGTEXT NULL DEFAULT NULL,
-  `city` VARCHAR(50) NULL DEFAULT NULL,
-  `state_province` VARCHAR(50) NULL DEFAULT NULL,
-  `zip_postal_code` VARCHAR(15) NULL DEFAULT NULL,
-  `country_region` VARCHAR(50) NULL DEFAULT NULL,
-  `web_page` LONGTEXT NULL DEFAULT NULL,
-  `notes` LONGTEXT NULL DEFAULT NULL,
-  `attachments` LONGBLOB NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `city` (`city` ASC),
-  INDEX `company` (`company` ASC),
-  INDEX `first_name` (`first_name` ASC),
-  INDEX `last_name` (`last_name` ASC),
-  INDEX `zip_postal_code` (`zip_postal_code` ASC),
-  INDEX `state_province` (`state_province` ASC))
+  INDEX `zipcode` (`zipcode` ASC),
+  INDEX `age` (`age` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
