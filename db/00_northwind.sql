@@ -25,6 +25,11 @@ CREATE TABLE IF NOT EXISTS `subletapp`.`users` (
 	requestID VARCHAR(50)
 );
   PRIMARY KEY (`username`),
+  CONSTRAINT `fk_requestID`
+    FOREIGN KEY (`request_ID`)
+    REFERENCES `subletapp`.`rentRequest` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   INDEX `first_name` (`first_name` ASC),
   INDEX `last_name` (`last_name` ASC),
   INDEX `zipcode` (`zipcode` ASC),
