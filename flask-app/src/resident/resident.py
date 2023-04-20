@@ -131,4 +131,3 @@ def put_bio(username):
     db.get_db().commit()
     json_data_reviewer = execute_command('select * from reviewer WHERE username="{0}"'.format(username))[0]
     json_data_reviewer.update(execute_command('select * from subletRequest WHERE username="{0}"'.format(username))[0])
-
