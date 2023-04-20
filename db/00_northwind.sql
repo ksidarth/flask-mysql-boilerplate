@@ -58,38 +58,33 @@ CREATE TABLE IF NOT EXISTS `subletapp`.`rentRequest` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-
 -- -----------------------------------------------------
--- Table `northwind`.`employee_privileges`
+-- Table `subletapp`.`Resident`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `northwind`.`employee_privileges` (
-  `employee_id` INT(11) NOT NULL,
-  `privilege_id` INT(11) NOT NULL,
-  PRIMARY KEY (`employee_id`, `privilege_id`),
-  INDEX `employee_id` (`employee_id` ASC),
-  INDEX `privilege_id` (`privilege_id` ASC),
-  INDEX `privilege_id_2` (`privilege_id` ASC),
-  CONSTRAINT `fk_employee_privileges_employees1`
-    FOREIGN KEY (`employee_id`)
-    REFERENCES `northwind`.`employees` (`id`)
+CREATE TABLE IF NOT EXISTS `subletapp`.`Resident` (
+	username VARCHAR(50),
+	first_name VARCHAR(50),
+	last_name VARCHAR(50),
+	email VARCHAR(50),
+	bio TEXT,
+	password VARCHAR(50),
+	dateAvailabletoBeginSublet DATE,
+	dateAvailabletoEndSublet DATE,
+	Age INT,
+	requestID VARCHAR(50),
+	propertyID VARCHAR(50)
+);
+  PRIMARY KEY (`username`)
+  CONSTRAINT `fk_requestID`
+    FOREIGN KEY (`requestID`)
+    REFERENCES `subletapp`.`rentRequest` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_employee_privileges_privileges1`
-    FOREIGN KEY (`privilege_id`)
-    REFERENCES `northwind`.`privileges` (`id`)
+  CONSTRAINT `fk_propertyID`
+    FOREIGN KEY (`propertyID`)
+    REFERENCES `subletapp`.`Property` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `northwind`.`inventory_transaction_types`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `northwind`.`inventory_transaction_types` (
-  `id` TINYINT(4) NOT NULL,
-  `type_name` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`id`))
+    ON UPDATE NO ACTION,
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
