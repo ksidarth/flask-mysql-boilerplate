@@ -85,6 +85,9 @@ CREATE TABLE IF NOT EXISTS `subletapp`.`resident` (
     REFERENCES `subletapp`.`Property` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
+  INDEX `first_name` (`first_name` ASC),
+  INDEX `last_name` (`last_name` ASC),
+  INDEX `age` (`age` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -93,14 +96,14 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `subletapp`.`property` (
 	id INT,
-	Sqft INT,
-	Pets VARCHAR(50),
-	Rate INT,
+	sqft INT,
+	pets VARCHAR(50),
+	rate INT,
 	isOpen VARCHAR(50),
-	Address VARCHAR(50),
-	City VARCHAR(50),
-	State VARCHAR(50),
-	ZipCode VARCHAR(50),
+	address VARCHAR(50),
+	city VARCHAR(50),
+	state VARCHAR(50),
+	zipCode VARCHAR(50),
 	landlordUsername INT,
 	description TEXT
 );
@@ -110,6 +113,8 @@ CREATE TABLE IF NOT EXISTS `subletapp`.`property` (
     REFERENCES `subletapp`.`landlord` (`username`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
+  INDEX `sqft` (`sqft` ASC),
+  INDEX `zipcode` (`zipcode` ASC),
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
