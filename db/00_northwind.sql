@@ -9,7 +9,7 @@ USE `subletapp` ;
 -- -----------------------------------------------------
 -- Table `subletapp`.`users`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `subletapp`.`users` (
+CREATE TABLE IF NOT EXISTS `subletapp`.`user` (
 	username VARCHAR(50),
 	first_name VARCHAR(50),
 	last_name VARCHAR(50),
