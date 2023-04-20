@@ -56,8 +56,6 @@ def post_resident():
     requestID = the_data[requestID]
     propertyID = the_data[propertyID]
 
-    // requestID = execute_command('select * from album WHERE requstID="{0}"'.format(album_title))[0]['album_id']
-
     cursor = db.get_db().cursor()
     cursor.execute('insert into review (username, first_name, last_name, email, bio, password, dateAvailabletoBeginSublet, dateAvailabletoEndSublet, age, requestID, propertyID) values ("{0}", "{1}", {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11})'
                    .format(username, first_name, last_name, email, bio, password, dateAvailabletoBeginSublet, dateAvailabletoEndSublet, age, requestID, propertyID))
