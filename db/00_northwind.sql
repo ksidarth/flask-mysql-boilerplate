@@ -61,7 +61,7 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `subletapp`.`Resident`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `subletapp`.`Resident` (
+CREATE TABLE IF NOT EXISTS `subletapp`.`resident` (
 	username VARCHAR(50),
 	first_name VARCHAR(50),
 	last_name VARCHAR(50),
