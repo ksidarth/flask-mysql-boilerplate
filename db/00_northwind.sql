@@ -34,12 +34,17 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `northwind`.`privileges`
+-- Table `northwind`.`rentRequest`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `northwind`.`privileges` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `privilege_name` VARCHAR(50) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
+CREATE TABLE IF NOT EXISTS `subletapp`.`rentRequest` (
+	id INT,
+	isResolved VARCHAR(50),
+	dateResolved DATE,
+	info TEXT,
+	dateSubmitted DATE,
+	landlordID VARCHAR(50)
+);
+  PRIMARY KEY (`id`)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
