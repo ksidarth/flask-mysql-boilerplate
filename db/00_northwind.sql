@@ -47,9 +47,14 @@ CREATE TABLE IF NOT EXISTS `subletapp`.`rentRequest` (
 	dateResolved DATE,
 	info TEXT,
 	dateSubmitted DATE,
-	landlordID VARCHAR(50)
+	residentUsername VARCHAR(50)
 );
   PRIMARY KEY (`id`)
+  CONSTRAINT `fk_residentUsername`
+    FOREIGN KEY (`residentUsername`)
+    REFERENCES `subletapp`.`Resident` (`username`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
