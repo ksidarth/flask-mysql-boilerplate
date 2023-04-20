@@ -96,30 +96,29 @@ def delete_resident(username):
     db.get_db().commit()
     return json_response({'message': 'resident successfully deleted'})
 
-# get a resident's email based on username
-@resident.route('/<username>/email', methods=['GET'])
-def get_email(username):
+ # get a resident's email based on username
+@resident.route('/<username>', methods=['GET'])
+def get_resident(username):
     json_data_reviewer = execute_command('select email from resident WHERE username="{0}"'.format(username))[0]
+    json_data_reviewer.update(execute_command('select email from subletRequest WHERE username="{0}"'.format(username))[0])
     return json_response(json_data_reviewer)
-
 
 # update a resident's email
 @resident.route('/<username>/email', methods=['PUT'])
-def put_email(username):
+def put_bio(username):
     the_data = request.json
     current_app.logger.info(the_data)
 
-    email = the_data['email']
+    bio = the_data['bio']
 
     cursor = db.get_db().cursor()
-    cursor.execute('update user set email="{0}" WHERE username="{1}"'.format(email, username))
+    cursor.execute('update user set biography="{0}" WHERE username="{1}"'.format(bio, username))
     db.get_db().commit()
     json_data_reviewer = execute_command('select * from reviewer WHERE username="{0}"'.format(username))[0]
     json_data_reviewer.update(execute_command('select * from subletRequest WHERE username="{0}"'.format(username))[0])
     return json_response(json_data_reviewer)
 
-#update a resident's dateAvailabletoBeginSublet
-
+# update a resident's dateAvailabletoBeginSublet
 @resident.route('/<username>/dateAvailabletoBeginSublet', methods=['PUT'])
 def put_bio(username):
     the_data = request.json
@@ -128,10 +127,8 @@ def put_bio(username):
     dateAvailabletoBeginSublet = the_data['dateAvailabletoBeginSublet']
 
     cursor = db.get_db().cursor()
-    cursor.execute('update user dateAvailabletoBeginSublet="{0}" WHERE username="{1}"'.format(dateAvailabletoBeginSublet, username))
+    cursor.execute('update user set biography="{0}" WHERE username="{1}"'.format(dateAvailabletoBeginSublet, username))
     db.get_db().commit()
     json_data_reviewer = execute_command('select * from reviewer WHERE username="{0}"'.format(username))[0]
     json_data_reviewer.update(execute_command('select * from subletRequest WHERE username="{0}"'.format(username))[0])
-    return json_response(json_data_reviewer)
 
-    
