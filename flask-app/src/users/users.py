@@ -7,7 +7,7 @@ users = Blueprint('users', __name__)
 
 # Get all customers from the DB
 @users.route('/Users', methods=['GET'])
-def get_customers():
+def get_users():
     # get a cursor object from the database
     cursor = db.get_db().cursor()
 
@@ -32,7 +32,7 @@ def get_customers():
 
 # Get user detail for user with particular username
 @users.route('/Users/<username>', methods=['GET'])
-def get_customer(username):
+def get_user(username):
     cursor = db.get_db().cursor()
     cursor.execute('select * from USER where username = {0}'.format(username))
     row_headers = [x[0] for x in cursor.description]
@@ -80,7 +80,7 @@ def post_user():
 
 # add a subletRequest
 @users.route('/subletRequests', methods=['POST'])
-def add_review():
+def add_request():
     the_data = request.json
     current_app.logger.info(the_data)
 
@@ -92,7 +92,7 @@ def add_review():
     residentUsername = the_data['residentUsername']
 
     cursor = db.get_db().cursor()
-    cursor.execute('insert into subletRequest(id, isResolved, dateResolved, info, dateSubmitted, residenUsername) values ("{0}", "{1}", {2}, {3}, {4})'
+    cursor.execute('insert into subletRequest(id, isResolved, dateResolved, info, dateSubmitted, residentUsername) values ("{0}", "{1}", {2}, {3}, {4})'
                    .format(id, isResolved, dateResolved, info, dateSubmitted, residentUsername))
     db.get_db().commit()
     response = (jsonify(the_data))
@@ -100,3 +100,78 @@ def add_review():
     response.mimetype = 'application/json'
     return response
 
+#Change the date their sublet ends
+@users.route('<username>/dateEndSublet', methods=['PUT'])
+def change_date(username):
+    the_data = request.json
+    current_app.logger.info(the_data)
+
+    date = the_data['dateEndSublet']
+    query = '''
+        UPDATE user
+        SET dateEndSublet = '{}'
+        WHERE username = '{}'
+    '''.format(date, username)
+    current_app.logger.info(query)
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    db.get_db().commit()
+
+    return 'Success!'
+
+
+# Removes a User
+@users.route('/user/<id>', methods=['DELETE'])
+def remove_user(username):
+    query = '''
+        DELETE FROM users
+        WHERE username = '{}' '''.format(username)
+    current_app.logger.info(query)
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    db.get_db().commit()
+
+    return 'Success!'
+
+# get all current subletRequests
+@users.route('/songs', methods=['GET'])
+def get_songs():
+    cursor = db.get_db().cursor()
+    query = '''
+        SELECT DISTINCT info 
+        FROM subletRequest
+        WHERE info IS NOT NULL
+    '''
+    cursor.execute(query)
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
+
+
+# Change a users bio based off its username
+@users.route('<username>/bio', methods=['PUT'])
+def edit_bio(username):
+    the_data = request.json
+    current_app.logger.info(the_data)
+
+    bio = the_data['bio']
+    query = '''
+        UPDATE user
+        SET bio = '{}'
+        WHERE username = '{}'
+    '''.format(bio, username)
+    current_app.logger.info(query)
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    db.get_db().commit()
+
+    return 'Success!'
