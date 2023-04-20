@@ -1,9 +1,11 @@
-from flask import Blueprint, request, jsonify, make_response
+from flask import Blueprint, request, jsonify, make_response, Flask
 import json
 from src import db
+resident = Flask(__name__)
 
-resident = Blueprint('resident', __name__)
-
+@resident.route("/", methods=['GET'])
+def hello_world():
+    return "TestMessage"
 
 # Get all the residents from the database
 @resident.route('/resident', methods=['GET'])
@@ -104,3 +106,7 @@ def delete_resident():
     db.get_db().commit()
 
     return jsonify({'message': 'Resident deletedx successfully'})
+
+
+if __name__ == '__main__':
+    resident.run(debug=True, port=4000)
