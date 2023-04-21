@@ -97,7 +97,7 @@ def delete_resident(username):
 
  # get a resident's email based on username
 @resident.route('/<username>', methods=['GET'])
-def get_resident(username):
+def get_resident_emails(username):
     json_data_reviewer = execute_command('select email from resident WHERE username="{0}"'.format(username))[0]
     json_data_reviewer.update(execute_command('select email from subletRequest WHERE username="{0}"'.format(username))[0])
     return json_response(json_data_reviewer)
