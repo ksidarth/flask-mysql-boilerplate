@@ -76,7 +76,7 @@ def post_user():
     # commit the changes to the database
     db.get_db().commit()
 
-    # return a success messagereturn
+    # return a success message
     jsonify({'message': 'Resident created successfully'})
 
 # add a subletRequest
@@ -101,7 +101,7 @@ def add_request():
     response.mimetype = 'application/json'
     return response
 
-#Change the date their sublet ends
+# Change the date their sublet ends
 @users.route('<username>/dateEndSublet', methods=['PUT'])
 def change_date(username):
     the_data = request.json
