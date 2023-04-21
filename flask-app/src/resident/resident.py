@@ -27,7 +27,7 @@ def json_response(json_data):
 def get_resident():
     json_data_resident = execute_command('select * from resident')
     for resident in json_data_resident:
-        json_data_resident = execute_command('select * from user WHERE username="{0}"'.format(resident['username']))
+        json_data_resident = execute_command('select * from residentWHERE username="{0}"'.format(resident['username']))
         resident.update(json_data_resident[0])
     return json_response(json_data_resident)
 
@@ -57,19 +57,19 @@ def post_resident():
     propertyID = the_data[propertyID]
 
     cursor = db.get_db().cursor()
-    cursor.execute('insert into review (username, first_name, last_name, email, bio, password, dateAvailabletoBeginSublet, dateAvailabletoEndSublet, age, requestID, propertyID) values ("{0}", "{1}", {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11})'
+    cursor.execute('insert into resident (username, first_name, last_name, email, bio, password, dateAvailabletoBeginSublet, dateAvailabletoEndSublet, age, requestID, propertyID) values ("{0}", "{1}", {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11})'
                    .format(username, first_name, last_name, email, bio, password, dateAvailabletoBeginSublet, dateAvailabletoEndSublet, age, requestID, propertyID))
     db.get_db().commit()
-    json_data_review = execute_command('select * from review WHERE review_id={0}'.format(cursor.lastrowid))
-    return json_response(json_data_review)
+    json_data_resident = execute_command('select * from resident WHERE resident_id={0}'.format(cursor.lastrowid))
+    return json_response(json_data_resident)
 
 
 # get a resident based on username
 @resident.route('/<username>', methods=['GET'])
 def get_resident(username):
-    json_data_reviewer = execute_command('select * from resident WHERE username="{0}"'.format(username))[0]
-    json_data_reviewer.update(execute_command('select * from subletRequest WHERE username="{0}"'.format(username))[0])
-    return json_response(json_data_reviewer)
+    json_data_resident = execute_command('select * from resident WHERE username="{0}"'.format(username))[0]
+    json_data_resident.update(execute_command('select * from subletRequest WHERE username="{0}"'.format(username))[0])
+    return json_response(json_data_resident)
 
 
 # update a resident's biography
@@ -81,11 +81,11 @@ def put_bio(username):
     bio = the_data['bio']
 
     cursor = db.get_db().cursor()
-    cursor.execute('update user set biography="{0}" WHERE username="{1}"'.format(bio, username))
+    cursor.execute('update resident biography="{0}" WHERE username="{1}"'.format(bio, username))
     db.get_db().commit()
-    json_data_reviewer = execute_command('select * from reviewer WHERE username="{0}"'.format(username))[0]
-    json_data_reviewer.update(execute_command('select * from subletRequest WHERE username="{0}"'.format(username))[0])
-    return json_response(json_data_reviewer)
+    json_data_resident = execute_command('select * from resident WHERE username="{0}"'.format(username))[0]
+    json_data_resident.update(execute_command('select * from subletRequest WHERE username="{0}"'.format(username))[0])
+    return json_response(json_data_resident)
 
 # delete a resident based on resident username
 @resident.route('/resident/<id>', methods=['DELETE'])
@@ -99,9 +99,9 @@ def delete_resident(username):
  # get a resident's email based on username
 @resident.route('/<username>', methods=['GET'])
 def get_resident(username):
-    json_data_reviewer = execute_command('select email from resident WHERE username="{0}"'.format(username))[0]
-    json_data_reviewer.update(execute_command('select email from subletRequest WHERE username="{0}"'.format(username))[0])
-    return json_response(json_data_reviewer)
+    json_data_resident = execute_command('select email from resident WHERE username="{0}"'.format(username))[0]
+    json_data_resident.update(execute_command('select email from subletRequest WHERE username="{0}"'.format(username))[0])
+    return json_response(json_data_resident)
 
 # update a resident's email
 @resident.route('/<username>/email', methods=['PUT'])
@@ -112,11 +112,11 @@ def put_bio(username):
     bio = the_data['bio']
 
     cursor = db.get_db().cursor()
-    cursor.execute('update user set biography="{0}" WHERE username="{1}"'.format(bio, username))
+    cursor.execute('update residentset biography="{0}" WHERE username="{1}"'.format(bio, username))
     db.get_db().commit()
-    json_data_reviewer = execute_command('select * from reviewer WHERE username="{0}"'.format(username))[0]
-    json_data_reviewer.update(execute_command('select * from subletRequest WHERE username="{0}"'.format(username))[0])
-    return json_response(json_data_reviewer)
+    json_data_resident = execute_command('select * from resident WHERE username="{0}"'.format(username))[0]
+    json_data_resident.update(execute_command('select * from subletRequest WHERE username="{0}"'.format(username))[0])
+    return json_response(json_data_resident)
 
 # update a resident's dateAvailabletoBeginSublet
 @resident.route('/<username>/dateAvailabletoBeginSublet', methods=['PUT'])
@@ -127,7 +127,7 @@ def put_bio(username):
     dateAvailabletoBeginSublet = the_data['dateAvailabletoBeginSublet']
 
     cursor = db.get_db().cursor()
-    cursor.execute('update user set biography="{0}" WHERE username="{1}"'.format(dateAvailabletoBeginSublet, username))
+    cursor.execute('update residentset biography="{0}" WHERE username="{1}"'.format(dateAvailabletoBeginSublet, username))
     db.get_db().commit()
-    json_data_reviewer = execute_command('select * from reviewer WHERE username="{0}"'.format(username))[0]
-    json_data_reviewer.update(execute_command('select * from subletRequest WHERE username="{0}"'.format(username))[0])
+    json_data_resident = execute_command('select * from resident WHERE username="{0}"'.format(username))[0]
+    json_data_resident.update(execute_command('select * from subletRequest WHERE username="{0}"'.format(username))[0])
