@@ -32,13 +32,6 @@ def get_residents():
         resident.update(json_data_resident[0])
     return json_response(json_data_resident)
 
-
-# get all resident
-@resident.route('/resident', methods=['GET'])
-def get_all_residents():
-    return json_response(execute_command('SELECT * from resident'))
-
-
 # add a resident
 @resident.route('/resident', methods=['POST'])
 def post_resident():
