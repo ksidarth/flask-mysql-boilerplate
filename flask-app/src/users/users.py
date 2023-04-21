@@ -1,11 +1,13 @@
 from flask import Blueprint, request, jsonify, make_response, current_app
 import json
-from src import db
+from flaskext.mysql import MySQL
+
+db = MySQL()
 users = Blueprint('users', __name__)
 
 
-# Get all customers from the DB
-@users.route('/Users', methods=['GET'])
+# Get all users from the DB
+@users.route('/', methods=['GET'])
 def get_users():
     # get a cursor object from the database
     cursor = db.get_db().cursor()
@@ -30,7 +32,7 @@ def get_users():
 
 
 # Get user detail for user with particular username
-@users.route('/Users/<username>', methods=['GET'])
+@users.route('/users/<username>', methods=['GET'])
 def get_user(username):
     cursor = db.get_db().cursor()
     cursor.execute('select * from USER where username = {0}'.format(username))
@@ -135,7 +137,7 @@ def remove_user(username):
     return 'Success!'
 
 # get all current subletRequests
-@users.route('/songs', methods=['GET'])
+@users.route('/user', methods=['GET'])
 def get_songs():
     cursor = db.get_db().cursor()
     query = '''

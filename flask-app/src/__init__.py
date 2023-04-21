@@ -5,6 +5,8 @@ from flaskext.mysql import MySQL
 # create a MySQL object that we will use in other parts of the API
 db = MySQL()
 
+if(db is not None):
+    print("Not none")
 def create_app():
     app = Flask(__name__)
     

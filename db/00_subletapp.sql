@@ -1,12 +1,11 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
-create database subletapp
+create database subletapp;
+-- grant all privileges on subletapp.* to 'webapp'@'$';
+-- flush privileges;
 
-DROP SCHEMA IF EXISTS `subletapp` ;
-CREATE SCHEMA IF NOT EXISTS `subletapp` DEFAULT CHARACTER SET latin1 ;
-USE `subletapp` ;
-
+use subletapp;
 -- -----------------------------------------------------
 -- Table `subletapp`.`users`
 -- -----------------------------------------------------

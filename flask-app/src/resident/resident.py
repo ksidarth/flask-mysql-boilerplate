@@ -1,6 +1,9 @@
 from flask import Blueprint, request, jsonify, make_response, current_app
 import json
-from src import db
+from flaskext.mysql import MySQL
+import db
+db = MySQL()
+
 resident = Blueprint('resident', __name__)
 
 def execute_command(command):
@@ -12,7 +15,6 @@ def execute_command(command):
     for row in the_data:
         json_data.append(dict(zip(row_headers, row)))
     return json_data
-
 
 def json_response(json_data):
     the_response = make_response(jsonify(json_data))
@@ -26,7 +28,7 @@ def json_response(json_data):
 def get_residents():
     json_data_resident = execute_command('select * from resident')
     for resident in json_data_resident:
-        json_data_resident = execute_command('select * from user WHERE username="{0}"'.format(resident['username']))
+        json_data_resident = execute_command('select * from resident WHERE username="{0}"'.format(resident['username']))
         resident.update(json_data_resident[0])
     return json_response(json_data_resident)
 
