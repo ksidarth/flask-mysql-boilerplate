@@ -138,7 +138,7 @@ def remove_user(username):
 
 # get all current subletRequests
 @users.route('/user', methods=['GET'])
-def get_songs():
+def get_requests():
     cursor = db.get_db().cursor()
     query = '''
         SELECT DISTINCT info 

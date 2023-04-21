@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, make_response, current_app
 import json
 from flaskext.mysql import MySQL
-import db
+
 db = MySQL()
 
 resident = Blueprint('resident', __name__)
