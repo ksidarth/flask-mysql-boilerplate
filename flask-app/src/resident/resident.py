@@ -1,7 +1,6 @@
 from flask import Blueprint, request, jsonify, make_response, current_app
 import json
 from src import db
-
 resident = Blueprint('resident', __name__)
 
 def execute_command(command):
@@ -24,7 +23,7 @@ def json_response(json_data):
 
 # get all resident
 @resident.route('/', methods=['GET'])
-def get_resident():
+def get_residents():
     json_data_resident = execute_command('select * from resident')
     for resident in json_data_resident:
         json_data_resident = execute_command('select * from residentWHERE username="{0}"'.format(resident['username']))
@@ -34,7 +33,7 @@ def get_resident():
 
 # get all resident
 @resident.route('/resident', methods=['GET'])
-def get_resident():
+def get_all_residents():
     return json_response(execute_command('select * from resident'))
 
 
@@ -99,13 +98,13 @@ def delete_resident(username):
  # get a resident's email based on username
 @resident.route('/<username>', methods=['GET'])
 def get_resident(username):
-    json_data_resident = execute_command('select email from resident WHERE username="{0}"'.format(username))[0]
-    json_data_resident.update(execute_command('select email from subletRequest WHERE username="{0}"'.format(username))[0])
-    return json_response(json_data_resident)
+    json_data_reviewer = execute_command('select email from resident WHERE username="{0}"'.format(username))[0]
+    json_data_reviewer.update(execute_command('select email from subletRequest WHERE username="{0}"'.format(username))[0])
+    return json_response(json_data_reviewer)
 
 # update a resident's email
 @resident.route('/<username>/email', methods=['PUT'])
-def put_bio(username):
+def put_email(username):
     the_data = request.json
     current_app.logger.info(the_data)
 
@@ -120,7 +119,7 @@ def put_bio(username):
 
 # update a resident's dateAvailabletoBeginSublet
 @resident.route('/<username>/dateAvailabletoBeginSublet', methods=['PUT'])
-def put_bio(username):
+def put_date(username):
     the_data = request.json
     current_app.logger.info(the_data)
 

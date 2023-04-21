@@ -1,6 +1,7 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+create database subletapp
 
 DROP SCHEMA IF EXISTS `subletapp` ;
 CREATE SCHEMA IF NOT EXISTS `subletapp` DEFAULT CHARACTER SET latin1 ;
@@ -23,7 +24,6 @@ CREATE TABLE IF NOT EXISTS `subletapp`.`user` (
 	password VARCHAR(50),
 	zipcode VARCHAR(50),
 	requestID VARCHAR(50)
-);
   PRIMARY KEY (`username`),
   CONSTRAINT `fk_requestID`
     FOREIGN KEY (`request_ID`)
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `subletapp`.`user` (
   INDEX `first_name` (`first_name` ASC),
   INDEX `last_name` (`last_name` ASC),
   INDEX `zipcode` (`zipcode` ASC),
-  INDEX `age` (`age` ASC))
+  INDEX `age` (`age` ASC));
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -48,13 +48,12 @@ CREATE TABLE IF NOT EXISTS `subletapp`.`rentRequest` (
 	info TEXT,
 	dateSubmitted DATE,
 	residentUsername VARCHAR(50)
-);
   PRIMARY KEY (`id`)
   CONSTRAINT `fk_residentUsername`
     FOREIGN KEY (`residentUsername`)
     REFERENCES `subletapp`.`Resident` (`username`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -73,7 +72,6 @@ CREATE TABLE IF NOT EXISTS `subletapp`.`resident` (
 	Age INT,
 	requestID VARCHAR(50),
 	propertyID VARCHAR(50)
-);
   PRIMARY KEY (`username`)
   CONSTRAINT `fk_requestID`
     FOREIGN KEY (`requestID`)
@@ -106,15 +104,14 @@ CREATE TABLE IF NOT EXISTS `subletapp`.`property` (
 	zipCode VARCHAR(50),
 	landlordID INT,
 	description TEXT
-);
-  PRIMARY KEY (`id`))
+  PRIMARY KEY (`id`)
   CONSTRAINT `fk_landlordUsername`
     FOREIGN KEY (`landlordUsername`)
     REFERENCES `subletapp`.`landlord` (`username`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
   INDEX `sqft` (`sqft` ASC),
-  INDEX `zipcode` (`zipcode` ASC),
+  INDEX `zipcode` (`zipcode` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -129,13 +126,12 @@ CREATE TABLE IF NOT EXISTS `subletapp`.`subletRequest` (
 	info TEXT,
 	dateSubmitted DATE,
 	residentUsername VARCHAR(50)
-);
-  PRIMARY KEY (`id`))
+  PRIMARY KEY (`id`)
   CONSTRAINT `fk_residentUsername`
     FOREIGN KEY (`residentUsername`)
     REFERENCES `subletapp`.`Resident` (`username`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -146,7 +142,7 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `subletapp`.`landlord` (
 	id VARCHAR(50),
 	first_name VARCHAR(50),
-	last_name VARCHAR(50)
+	last_name VARCHAR(50))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
