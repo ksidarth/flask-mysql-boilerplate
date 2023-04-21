@@ -13,7 +13,7 @@ This project uses three containers through docker. An appsmith container holds t
 1. Build the images with `docker compose build`
 1. Start the containers with `docker compose up`.  To run in detached mode, run `docker compose up -d`. 
 
-youtube link: https://www.youtube.com/watch?v=ObPzfZbgqCA&feature=youtu.be
+youtube link: https://www.youtube.com/watch?v=BOvaPaBk1SM&feature=youtu.be
 
 
 
